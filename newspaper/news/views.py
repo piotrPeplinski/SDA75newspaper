@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from .models import Article
 from .serializers import ArticleSerializer
 from rest_framework.response import Response
@@ -19,3 +19,9 @@ def list_create_articles(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+@api_view(['GET','PUT','DELETE'])
+def article_detail(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    serializer = ArticleSerializer(article)
+    return Response(serializer.data)
