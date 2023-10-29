@@ -9,6 +9,7 @@ urlpatterns = [
     path('articles/<int:pk>/',
          views.ArticleDetail.as_view(), name='article_detail'),
     path('get-token/', obtain_auth_token),
+    path('', views.APIRoot.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

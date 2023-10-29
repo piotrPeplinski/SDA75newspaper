@@ -7,6 +7,7 @@ from rest_framework import status, mixins, generics, permissions
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.reverse import reverse
 
 # Create your views here.
 
@@ -31,3 +32,12 @@ class ListCreateUsers(generics.ListCreateAPIView):
 
     def get_permissions(self):
         return [permissions.IsAdminUser() if self.request.method == 'GET' else permissions.AllowAny()]
+    
+
+class APIRoot(APIView):
+    def get(self, request, format=None):
+        links = {
+            'users': reverse('users', request=request, format=format),
+            'articles': reverse('articles', request=request, format=format)
+        }
+        return Response(links)
